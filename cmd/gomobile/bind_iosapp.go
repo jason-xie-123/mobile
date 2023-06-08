@@ -297,7 +297,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 
 			fmt.Printf("%d: %s [%s] tmpPath=%s\n", index, frameworkDirs[index], architectures, tmpPath)
 
-			exec.Command("cp", "-r", tmpPath, targetFolderForAppleTV)
+			exec.Command("/bin/bash", "-c", "cp", "-r", tmpPath, targetFolderForAppleTV)
 
 			// rm -rf ~/Downloads/aaa/cccc/dddd/**
 			// ➜  Downloads mkdir -p  ~/Downloads/aaa/cccc/dddd && cp -r  /var/folders/2y/sz323lfd52jg4t_kc2vr8b880000gn/T/gomobile-work-3968134837/iossimulator/appletvsimulator ~/Downloads/aaa/cccc/dddd
