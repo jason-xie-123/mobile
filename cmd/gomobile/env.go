@@ -204,17 +204,37 @@ func envInit() (err error) {
 			var err error
 			switch platform {
 			case "ios":
-				goos = "ios"
-				sdk = "iphoneos"
-				clang, cflags, err = envClang(sdk)
-				cflags += " -miphoneos-version-min=" + buildIOSVersion
-				cflags += " -fembed-bitcode"
+				if buildForAppleTV {
+					fmt.Println("start build for appleTV ..............................")
+					goos = "appletv"
+					sdk = "appletvos"
+					clang, cflags, err = envClang(sdk)
+					cflags += " -mtvos-version-min=" + buildAppleTVOSVersion
+					cflags += " -fembed-bitcode"
+				} else {
+					fmt.Println("start build for iOS ..............................")
+					goos = "ios"
+					sdk = "iphoneos"
+					clang, cflags, err = envClang(sdk)
+					cflags += " -miphoneos-version-min=" + buildIOSVersion
+					cflags += " -fembed-bitcode"
+				}
 			case "iossimulator":
-				goos = "ios"
-				sdk = "iphonesimulator"
-				clang, cflags, err = envClang(sdk)
-				cflags += " -mios-simulator-version-min=" + buildIOSVersion
-				cflags += " -fembed-bitcode"
+				if buildForAppleTV {
+					fmt.Println("start build for appleTV Simulator ..............................")
+					goos = "appletv"
+					sdk = "appletvsimulator"
+					clang, cflags, err = envClang(sdk)
+					cflags += " -mtvos-version-min=" + buildAppleTVOSVersion
+					cflags += " -fembed-bitcode"
+				} else {
+					fmt.Println("start build for iOS Simulator ..............................")
+					goos = "ios"
+					sdk = "iphonesimulator"
+					clang, cflags, err = envClang(sdk)
+					cflags += " -mios-simulator-version-min=" + buildIOSVersion
+					cflags += " -fembed-bitcode"
+				}
 			case "maccatalyst":
 				// Mac Catalyst is a subset of iOS APIs made available on macOS
 				// designed to ease porting apps developed for iPad to macOS.
