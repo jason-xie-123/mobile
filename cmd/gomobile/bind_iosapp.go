@@ -270,6 +270,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		for index := 0; index < len(frameworkDirs); index++ {
 			fmt.Printf("%d: %s\n", index, frameworkDirs[index])
 		}
+		return nil
 	} else {
 		fmt.Println("compile for iOS, no need create-xcframework ................................................")
 
