@@ -84,6 +84,8 @@ func runBuild(cmd *command) (err error) {
 // runBuildImpl builds a package for mobiles based on the given commands.
 // runBuildImpl returns a built package information and an error if exists.
 func runBuildImpl(cmd *command) (*packages.Package, error) {
+	fmt.Println("start runBuildImpl ..............................")
+
 	cleanup, err := buildEnvInit()
 	if err != nil {
 		return nil, err
@@ -255,6 +257,8 @@ var (
 )
 
 func addBuildFlags(cmd *command) {
+	fmt.Println("start addBuildFlags ..............................")
+
 	cmd.flag.StringVar(&buildO, "o", "", "")
 	cmd.flag.StringVar(&buildGcflags, "gcflags", "", "")
 	cmd.flag.StringVar(&buildAsmflags, "asmflags", "", "")

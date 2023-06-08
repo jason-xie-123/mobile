@@ -44,6 +44,8 @@ func init() {
 }
 
 func runInit(cmd *command) error {
+	fmt.Println("start runInit ..............................")
+
 	gopaths := filepath.SplitList(goEnv("GOPATH"))
 	if len(gopaths) == 0 {
 		return fmt.Errorf("GOPATH is not set")

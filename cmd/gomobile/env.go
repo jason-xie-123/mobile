@@ -236,6 +236,7 @@ func envInit() (err error) {
 					cflags += " -fembed-bitcode"
 				}
 			case "maccatalyst":
+				fmt.Println("start build for maccatalyst ..............................")
 				// Mac Catalyst is a subset of iOS APIs made available on macOS
 				// designed to ease porting apps developed for iPad to macOS.
 				// See https://developer.apple.com/mac-catalyst/.
@@ -266,6 +267,7 @@ func envInit() (err error) {
 					cflags += " -fembed-bitcode"
 				}
 			case "macos":
+				fmt.Println("start build for macos ..............................")
 				goos = "darwin"
 				sdk = "macosx" // Note: the SDK is called "macosx", not "macos"
 				cflags += " -mmacosx-version-min=" + buildMacOSVersion
@@ -274,6 +276,7 @@ func envInit() (err error) {
 					cflags += " -fembed-bitcode"
 				}
 			default:
+				fmt.Println("start build for unknown ..............................")
 				panic(fmt.Errorf("unknown Apple target: %s/%s", platform, arch))
 			}
 
@@ -293,6 +296,11 @@ func envInit() (err error) {
 				"CGO_ENABLED=1",
 				"DARWIN_SDK="+sdk,
 			)
+
+			fmt.Println("..............................")
+			fmt.Printf("The apple env of %s/%s is: %+q\n", platform, arch, env)
+			fmt.Println("..............................")
+
 			appleEnv[platform+"/"+arch] = env
 		}
 	}
