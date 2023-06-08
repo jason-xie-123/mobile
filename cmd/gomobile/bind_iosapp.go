@@ -269,8 +269,8 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ................................................", targetFolderForAppleTV)
 		frameworkDirs = RemoveRepeatedElement(frameworkDirs)
 
-		exec.Command("mkdir", "-p", targetFolderForAppleTV)
-		exec.Command("rm", "-rf", targetFolderForAppleTV+"/**")
+		// exec.Command("mkdir", "-p", targetFolderForAppleTV)
+		// exec.Command("rm", "-rf", targetFolderForAppleTV+"/**")
 
 		for index := 0; index < len(frameworkDirs); index++ {
 			cmd := exec.Command("lipo", "-info", frameworkDirs[index]+"/Versions/A/Falconapi")
