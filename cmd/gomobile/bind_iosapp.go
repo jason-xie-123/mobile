@@ -292,19 +292,19 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 			}
 
 			if strings.Contains(frameworkDirs[index], "appletvos") {
-				os.MkdirAll(targetFolderForAppleTV+"appletvos", 0700)
+				os.MkdirAll(targetFolderForAppleTV+"/appletvos", 0700)
 				tmpPath := frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvos")-1]
 
 				duplication := NewDuplication()
-				duplication.Dir(tmpPath, targetFolderForAppleTV)
+				duplication.Dir(tmpPath, targetFolderForAppleTV+"/appletvos")
 			}
 
 			if strings.Contains(frameworkDirs[index], "appletvsimulator") {
-				os.MkdirAll(targetFolderForAppleTV+"appletvsimulator", 0700)
+				os.MkdirAll(targetFolderForAppleTV+"/appletvsimulator", 0700)
 				tmpPath := frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvsimulator")-1]
 
 				duplication := NewDuplication()
-				duplication.Dir(tmpPath, targetFolderForAppleTV)
+				duplication.Dir(tmpPath, targetFolderForAppleTV+"/appletvsimulator")
 			}
 
 			fmt.Printf("%d [%s]: %s \n", index, architectures, frameworkDirs[index])
