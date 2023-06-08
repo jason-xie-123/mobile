@@ -267,6 +267,11 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 
 	if len(buildAppleTVOSVersion) > 0 {
 		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ................................................", buildO)
+		frameworkDirs = RemoveRepeatedElement(frameworkDirs)
+
+		exec.Command("mkdir", "-p", buildO)
+		exec.Command("rm", "-rf", buildO+"/**")
+
 		for index := 0; index < len(frameworkDirs); index++ {
 			cmd := exec.Command("lipo", "-info", frameworkDirs[index]+"/Versions/A/Falconapi")
 			out, err := cmd.Output()
@@ -278,17 +283,24 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 			}
 			architectures := ""
 			result := string(out)
-			if strings.Contains(result, "arm64") {
-				architectures = "arm64"
-			} else if strings.Contains(result, "x86_64 arm64") {
+			if strings.Contains(result, "x86_64 arm64") {
 				architectures = "x86_64 arm64"
+			} else if strings.Contains(result, "arm64") {
+				architectures = "arm64"
 			} else {
 				err = fmt.Errorf("can not check the Architectures of the framework: %s", frameworkDirs[index])
 
 				return err
 			}
 
-			fmt.Printf("%d: %s [%s]\n", index, frameworkDirs[index], architectures)
+			tmpPath := frameworkDirs[index][:strings.Index(frameworkDirs[index], "Falconapi.framework")-1]
+
+			fmt.Printf("%d: %s [%s] tmpPath=%s\n", index, frameworkDirs[index], architectures, tmpPath)
+
+			exec.Command("cp", "-r", tmpPath, buildO)
+
+			// rm -rf ~/Downloads/aaa/cccc/dddd/**
+			// ➜  Downloads mkdir -p  ~/Downloads/aaa/cccc/dddd && cp -r  /var/folders/2y/sz323lfd52jg4t_kc2vr8b880000gn/T/gomobile-work-3968134837/iossimulator/appletvsimulator ~/Downloads/aaa/cccc/dddd
 		}
 		return nil
 	} else {
@@ -306,6 +318,23 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		err = runCmd(cmd)
 		return err
 	}
+}
+
+func RemoveRepeatedElement(arr []string) (newArr []string) {
+	newArr = make([]string, 0)
+	for i := 0; i < len(arr); i++ {
+		repeat := false
+		for j := i + 1; j < len(arr); j++ {
+			if arr[i] == arr[j] {
+				repeat = true
+				break
+			}
+		}
+		if !repeat {
+			newArr = append(newArr, arr[i])
+		}
+	}
+	return newArr
 }
 
 const appleBindInfoPlist = `<?xml version="1.0" encoding="UTF-8"?>
