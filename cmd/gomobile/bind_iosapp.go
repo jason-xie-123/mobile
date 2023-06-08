@@ -265,6 +265,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		}
 	}
 
+	fmt.Println("999999999999:................................................ buildAppleTVOSVersion", buildAppleTVOSVersion)
 	// Finally combine all frameworks to an XCFramework
 	xcframeworkArgs := []string{"-create-xcframework"}
 
