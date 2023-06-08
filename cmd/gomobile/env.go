@@ -206,7 +206,7 @@ func envInit() (err error) {
 			case "ios":
 				if len(buildAppleTVOSVersion) > 0 {
 					fmt.Println("start build for appleTV ..............................")
-					goos = "appletv"
+					goos = "ios"
 					sdk = "appletvos"
 					clang, cflags, err = envClang(sdk)
 					cflags += " -mtvos-version-min=" + buildAppleTVOSVersion
@@ -222,7 +222,7 @@ func envInit() (err error) {
 			case "iossimulator":
 				if len(buildAppleTVOSVersion) > 0 {
 					fmt.Println("start build for appleTV Simulator ..............................")
-					goos = "appletv"
+					goos = "ios"
 					sdk = "appletvsimulator"
 					clang, cflags, err = envClang(sdk)
 					cflags += " -mtvos-version-min=" + buildAppleTVOSVersion
