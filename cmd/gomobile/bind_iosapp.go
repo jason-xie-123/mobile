@@ -265,18 +265,26 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		}
 	}
 
-	fmt.Println("999999999999:................................................ buildAppleTVOSVersion:", buildAppleTVOSVersion, " frameworkDirs:", frameworkDirs)
-	// Finally combine all frameworks to an XCFramework
-	xcframeworkArgs := []string{"-create-xcframework"}
+	if len(buildAppleTVOSVersion) > 0 {
+		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ................................................")
+		for index := 0; index < len(frameworkDirs); index++ {
+			fmt.Printf("%d: %s\n", index, frameworkDirs[index])
+		}
+	} else {
+		fmt.Println("compile for iOS, no need create-xcframework ................................................")
 
-	for _, dir := range frameworkDirs {
-		xcframeworkArgs = append(xcframeworkArgs, "-framework", dir)
+		// Finally combine all frameworks to an XCFramework
+		xcframeworkArgs := []string{"-create-xcframework"}
+
+		for _, dir := range frameworkDirs {
+			xcframeworkArgs = append(xcframeworkArgs, "-framework", dir)
+		}
+
+		xcframeworkArgs = append(xcframeworkArgs, "-output", buildO)
+		cmd := exec.Command("xcodebuild", xcframeworkArgs...)
+		err = runCmd(cmd)
+		return err
 	}
-
-	xcframeworkArgs = append(xcframeworkArgs, "-output", buildO)
-	cmd := exec.Command("xcodebuild", xcframeworkArgs...)
-	err = runCmd(cmd)
-	return err
 }
 
 const appleBindInfoPlist = `<?xml version="1.0" encoding="UTF-8"?>
