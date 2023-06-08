@@ -266,9 +266,29 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 	}
 
 	if len(buildAppleTVOSVersion) > 0 {
-		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ................................................")
+		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ................................................", buildO)
 		for index := 0; index < len(frameworkDirs); index++ {
-			fmt.Printf("%d: %s\n", index, frameworkDirs[index])
+			cmd := exec.Command("lipo", "-info", frameworkDirs[index]+"/Versions/A/Falconapi")
+			out, err := cmd.Output()
+
+			if err != nil {
+				err = fmt.Errorf("can not check the Architectures of the framework: %s", frameworkDirs[index])
+
+				return err
+			}
+			architectures := ""
+			result := string(out)
+			if strings.Contains(result, "arm64") {
+				architectures = "arm64"
+			} else if strings.Contains(result, "x86_64 arm64") {
+				architectures = "x86_64 arm64"
+			} else {
+				err = fmt.Errorf("can not check the Architectures of the framework: %s", frameworkDirs[index])
+
+				return err
+			}
+
+			fmt.Printf("%d: %s [%s]\n", index, frameworkDirs[index], architectures)
 		}
 		return nil
 	} else {
