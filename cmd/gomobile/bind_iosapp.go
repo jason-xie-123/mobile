@@ -273,25 +273,25 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		frameworkDirs = RemoveRepeatedElement(frameworkDirs)
 
 		for index := 0; index < len(frameworkDirs); index++ {
-			cmd := exec.Command("lipo", "-info", frameworkDirs[index]+"/Versions/A/Falconapi")
-			out, err := cmd.Output()
+			// cmd := exec.Command("lipo", "-info", frameworkDirs[index]+"/Versions/A/Falconapi")
+			// out, err := cmd.Output()
 
-			if err != nil {
-				err = fmt.Errorf("can not check the Architectures of the framework: %s", frameworkDirs[index])
+			// if err != nil {
+			// 	err = fmt.Errorf("can not check the Architectures of the framework: %s", frameworkDirs[index])
 
-				return err
-			}
-			architectures := ""
-			result := string(out)
-			if strings.Contains(result, "x86_64 arm64") {
-				architectures = "x86_64 arm64"
-			} else if strings.Contains(result, "arm64") {
-				architectures = "arm64"
-			} else {
-				err = fmt.Errorf("can not check the Architectures of the framework: %s", frameworkDirs[index])
+			// 	return err
+			// }
+			// architectures := ""
+			// result := string(out)
+			// if strings.Contains(result, "x86_64 arm64") {
+			// 	architectures = "x86_64 arm64"
+			// } else if strings.Contains(result, "arm64") {
+			// 	architectures = "arm64"
+			// } else {
+			// 	err = fmt.Errorf("can not check the Architectures of the framework: %s", frameworkDirs[index])
 
-				return err
-			}
+			// 	return err
+			// }
 
 			if strings.Contains(frameworkDirs[index], "appletvos") {
 				os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvos")+len("appletvos")], targetFolderForAppleTV+"/appletvos")
@@ -301,7 +301,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 				os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvsimulator")+len("appletvsimulator")], targetFolderForAppleTV+"/appletvsimulator")
 			}
 
-			fmt.Printf("%d [%s]: %s \n", index, architectures, frameworkDirs[index])
+			fmt.Printf("%d: %s \n", index, frameworkDirs[index])
 		}
 		return nil
 	} else {
