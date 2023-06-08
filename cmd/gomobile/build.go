@@ -155,6 +155,9 @@ func runBuildImpl(cmd *command) (*packages.Package, error) {
 				if t.platform == "maccatalyst" && v < 13.0 {
 					return nil, errors.New("catalyst requires -iosversion=13 or higher")
 				}
+
+				fmt.Printf("start goBuild %s 02:%s ..............................\n", t.String(), appleEnv[t.String()])
+
 				if err := goBuild(pkg.PkgPath, appleEnv[t.String()]); err != nil {
 					return nil, err
 				}

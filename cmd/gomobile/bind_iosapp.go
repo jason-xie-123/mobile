@@ -144,6 +144,8 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		gobindDir := filepath.Join(outDir, "src", "gobind")
 
 		env := appleEnv[t.String()][:]
+		fmt.Printf("read %s from appleEnv:%s ..............................\n", t.String(), env)
+
 		sdk := getenv(env, "DARWIN_SDK")
 
 		frameworkDir := filepath.Join(tmpdir, t.platform, sdk, title+".framework")
@@ -267,7 +269,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 	}
 
 	if len(buildAppleTVOSVersion) > 0 {
-		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ................................................")
+		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ..............................")
 		frameworkDirs = RemoveRepeatedElement(frameworkDirs)
 
 		for index := 0; index < len(frameworkDirs); index++ {
@@ -303,7 +305,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		}
 		return nil
 	} else {
-		fmt.Println("compile for iOS, no need create-xcframework ................................................")
+		fmt.Println("compile for iOS, no need create-xcframework ..............................")
 
 		// Finally combine all frameworks to an XCFramework
 		xcframeworkArgs := []string{"-create-xcframework"}
