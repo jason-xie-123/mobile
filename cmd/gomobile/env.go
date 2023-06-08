@@ -205,14 +205,14 @@ func envInit() (err error) {
 			switch platform {
 			case "ios":
 				if len(buildAppleTVOSVersion) > 0 {
-					fmt.Println("start build for appleTV ..............................")
+					fmt.Println("start ready build config for appleTV ..............................")
 					goos = "ios"
 					sdk = "appletvos"
 					clang, cflags, err = envClang(sdk)
 					cflags += " -mtvos-version-min=" + buildAppleTVOSVersion
 					cflags += " -fembed-bitcode"
 				} else {
-					fmt.Println("start build for iOS ..............................")
+					fmt.Println("start ready build config for iOS ..............................")
 					goos = "ios"
 					sdk = "iphoneos"
 					clang, cflags, err = envClang(sdk)
@@ -221,14 +221,14 @@ func envInit() (err error) {
 				}
 			case "iossimulator":
 				if len(buildAppleTVOSVersion) > 0 {
-					fmt.Println("start build for appleTV Simulator ..............................")
+					fmt.Println("start ready build config for appleTV Simulator ..............................")
 					goos = "ios"
 					sdk = "appletvsimulator"
 					clang, cflags, err = envClang(sdk)
 					cflags += " -mtvos-version-min=" + buildAppleTVOSVersion
 					cflags += " -fembed-bitcode"
 				} else {
-					fmt.Println("start build for iOS Simulator ..............................")
+					fmt.Println("start ready build config for iOS Simulator ..............................")
 					goos = "ios"
 					sdk = "iphonesimulator"
 					clang, cflags, err = envClang(sdk)
@@ -236,7 +236,7 @@ func envInit() (err error) {
 					cflags += " -fembed-bitcode"
 				}
 			case "maccatalyst":
-				fmt.Println("start build for maccatalyst ..............................")
+				fmt.Println("start ready build config for maccatalyst ..............................")
 				// Mac Catalyst is a subset of iOS APIs made available on macOS
 				// designed to ease porting apps developed for iPad to macOS.
 				// See https://developer.apple.com/mac-catalyst/.
@@ -267,7 +267,7 @@ func envInit() (err error) {
 					cflags += " -fembed-bitcode"
 				}
 			case "macos":
-				fmt.Println("start build for macos ..............................")
+				fmt.Println("start ready build config for macos ..............................")
 				goos = "darwin"
 				sdk = "macosx" // Note: the SDK is called "macosx", not "macos"
 				cflags += " -mmacosx-version-min=" + buildMacOSVersion
@@ -276,7 +276,7 @@ func envInit() (err error) {
 					cflags += " -fembed-bitcode"
 				}
 			default:
-				fmt.Println("start build for unknown ..............................")
+				fmt.Println("start ready build config for unknown ..............................")
 				panic(fmt.Errorf("unknown Apple target: %s/%s", platform, arch))
 			}
 
@@ -298,7 +298,7 @@ func envInit() (err error) {
 			)
 
 			fmt.Println("..............................")
-			fmt.Printf("The apple env of %s/%s is: %+q\n", platform, arch, env)
+			fmt.Printf("The build config of %s/%s[isForAppleTV=%t] is: %+q\n", platform, arch, len(buildAppleTVOSVersion) > 0, env)
 			fmt.Println("..............................")
 
 			appleEnv[platform+"/"+arch] = env
