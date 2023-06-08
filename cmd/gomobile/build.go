@@ -248,7 +248,6 @@ var (
 	buildBundleID         string      // -bundleid
 	buildIOSVersion       string      // -iosversion
 	buildAppleTVOSVersion string      // -appletvversion
-	buildForAppleTV       bool        // -buildforappletv
 	buildMacOSVersion     string      // -macosversion
 	buildAndroidAPI       int         // -androidapi
 	buildTags             stringsFlag // -tags
@@ -262,8 +261,7 @@ func addBuildFlags(cmd *command) {
 	cmd.flag.StringVar(&buildTarget, "target", "android", "")
 	cmd.flag.StringVar(&buildBundleID, "bundleid", "", "")
 	cmd.flag.StringVar(&buildIOSVersion, "iosversion", "13.0", "")
-	cmd.flag.StringVar(&buildAppleTVOSVersion, "appletvversion", "17.0", "")
-	cmd.flag.BoolVar(&buildForAppleTV, "buildforappletv", false, "")
+	cmd.flag.StringVar(&buildAppleTVOSVersion, "appletvversion", "", "")
 	cmd.flag.StringVar(&buildMacOSVersion, "macosversion", "12.0", "")
 	cmd.flag.IntVar(&buildAndroidAPI, "androidapi", minAndroidAPI, "")
 

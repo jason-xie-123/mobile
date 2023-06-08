@@ -204,7 +204,7 @@ func envInit() (err error) {
 			var err error
 			switch platform {
 			case "ios":
-				if buildForAppleTV {
+				if len(buildAppleTVOSVersion) > 0 {
 					fmt.Println("start build for appleTV ..............................")
 					goos = "appletv"
 					sdk = "appletvos"
@@ -220,7 +220,7 @@ func envInit() (err error) {
 					cflags += " -fembed-bitcode"
 				}
 			case "iossimulator":
-				if buildForAppleTV {
+				if len(buildAppleTVOSVersion) > 0 {
 					fmt.Println("start build for appleTV Simulator ..............................")
 					goos = "appletv"
 					sdk = "appletvsimulator"
