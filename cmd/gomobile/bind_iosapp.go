@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"strconv"
@@ -269,9 +270,6 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ................................................", targetFolderForAppleTV)
 		frameworkDirs = RemoveRepeatedElement(frameworkDirs)
 
-		// exec.Command("mkdir", "-p", targetFolderForAppleTV)
-		// exec.Command("rm", "-rf", targetFolderForAppleTV+"/**")
-
 		for index := 0; index < len(frameworkDirs); index++ {
 			cmd := exec.Command("lipo", "-info", frameworkDirs[index]+"/Versions/A/Falconapi")
 			out, err := cmd.Output()
@@ -293,16 +291,23 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 				return err
 			}
 
-			tmpPath := frameworkDirs[index][:strings.Index(frameworkDirs[index], "Falconapi.framework")-1]
+			if strings.Contains(frameworkDirs[index], "appletvos") {
+				os.MkdirAll(targetFolderForAppleTV+"appletvos", 0700)
+				tmpPath := frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvos")-1]
 
-			fmt.Printf("%d: %s [%s] tmpPath=%s\n", index, frameworkDirs[index], architectures, tmpPath)
+				duplication := NewDuplication()
+				duplication.Dir(tmpPath, targetFolderForAppleTV)
+			}
 
-			// exec.Command("/bin/bash", "-c", fmt.Sprintf("cp -r %s %s", tmpPath, targetFolderForAppleTV))
+			if strings.Contains(frameworkDirs[index], "appletvsimulator") {
+				os.MkdirAll(targetFolderForAppleTV+"appletvsimulator", 0700)
+				tmpPath := frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvsimulator")-1]
 
-			duplication := NewDuplication()
-			duplication.Dir(tmpPath, targetFolderForAppleTV)
-			// rm -rf ~/Downloads/aaa/cccc/dddd/**
-			// ➜  Downloads mkdir -p  ~/Downloads/aaa/cccc/dddd && cp -r  /var/folders/2y/sz323lfd52jg4t_kc2vr8b880000gn/T/gomobile-work-3968134837/iossimulator/appletvsimulator ~/Downloads/aaa/cccc/dddd
+				duplication := NewDuplication()
+				duplication.Dir(tmpPath, targetFolderForAppleTV)
+			}
+
+			fmt.Printf("%d [%s]: %s \n", index, architectures, frameworkDirs[index])
 		}
 		return nil
 	} else {
