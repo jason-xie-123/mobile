@@ -267,7 +267,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 	}
 
 	if len(buildAppleTVOSVersion) > 0 {
-		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ................................................", targetFolderForAppleTV)
+		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ................................................")
 		frameworkDirs = RemoveRepeatedElement(frameworkDirs)
 
 		for index := 0; index < len(frameworkDirs); index++ {
@@ -292,19 +292,11 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 			}
 
 			if strings.Contains(frameworkDirs[index], "appletvos") {
-				os.MkdirAll(targetFolderForAppleTV+"/appletvos", 0700)
-				tmpPath := frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvos")+len("appletvos")]
-
-				duplication := NewDuplication()
-				duplication.Dir(tmpPath, targetFolderForAppleTV+"/appletvos")
+				os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvos")+len("appletvos")], targetFolderForAppleTV+"/appletvos")
 			}
 
 			if strings.Contains(frameworkDirs[index], "appletvsimulator") {
-				os.MkdirAll(targetFolderForAppleTV+"/appletvsimulator", 0700)
-				tmpPath := frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvsimulator")+len("appletvsimulator")]
-
-				duplication := NewDuplication()
-				duplication.Dir(tmpPath, targetFolderForAppleTV+"/appletvsimulator")
+				os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvsimulator")+len("appletvsimulator")], targetFolderForAppleTV+"/appletvsimulator")
 			}
 
 			fmt.Printf("%d [%s]: %s \n", index, architectures, frameworkDirs[index])
