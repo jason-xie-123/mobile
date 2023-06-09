@@ -227,7 +227,7 @@ func envInit() (err error) {
 					// goos = "ios"
 					sdk = "appletvsimulator"
 					clang, cflags, err = envClang(sdk)
-					cflags += " -mtvos-version-min=" + buildAppleTVOSVersion
+					cflags += " -mtvos-simulator-version-min=" + buildAppleTVOSVersion
 					cflags += " -fembed-bitcode"
 				} else {
 					fmt.Println("start ready build config for iOS Simulator ..............................")
@@ -269,22 +269,13 @@ func envInit() (err error) {
 					cflags += " -fembed-bitcode"
 				}
 			case "macos":
-				if len(buildAppleTVOSVersion) > 0 {
-					fmt.Println("start ready build config for appleTV ..............................")
-					goos = "darwin"
-					sdk = "appletvsimulator"
-					clang, cflags, err = envClang(sdk)
-					cflags += " -mtvos-version-min=" + buildAppleTVOSVersion
+				fmt.Println("start ready build config for macos ..............................")
+				goos = "darwin"
+				sdk = "macosx" // Note: the SDK is called "macosx", not "macos"
+				cflags += " -mmacosx-version-min=" + buildMacOSVersion
+				clang, cflags, err = envClang(sdk)
+				if arch == "arm64" {
 					cflags += " -fembed-bitcode"
-				} else {
-					fmt.Println("start ready build config for macos ..............................")
-					goos = "darwin"
-					sdk = "macosx" // Note: the SDK is called "macosx", not "macos"
-					cflags += " -mmacosx-version-min=" + buildMacOSVersion
-					clang, cflags, err = envClang(sdk)
-					if arch == "arm64" {
-						cflags += " -fembed-bitcode"
-					}
 				}
 			default:
 				fmt.Println("start ready build config for unknown ..............................")

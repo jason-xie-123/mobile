@@ -360,6 +360,7 @@ func goCmdAt(at string, subcmd string, srcs []string, env []string, args ...stri
 	}
 	cmd.Env = env
 	cmd.Dir = at
+
 	return runCmd(cmd)
 }
 
