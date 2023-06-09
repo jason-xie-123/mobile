@@ -204,7 +204,7 @@ func envInit() (err error) {
 			var err error
 			switch platform {
 			case "ios":
-				if len(buildAppleTVOSVersion) > 0 {
+				if buildForAppleTV {
 					// https://github.com/rust-lang/rust/issues/48862
 					fmt.Println("start ready build config for appleTV ..............................")
 					goos = "ios"
@@ -222,7 +222,7 @@ func envInit() (err error) {
 					cflags += " -fembed-bitcode"
 				}
 			case "iossimulator":
-				if len(buildAppleTVOSVersion) > 0 {
+				if buildForAppleTV {
 					// https://github.com/rust-lang/rust/issues/48862
 					fmt.Println("start ready build config for appleTV Simulator ..............................")
 					goos = "ios"
@@ -302,7 +302,7 @@ func envInit() (err error) {
 			)
 
 			fmt.Println("..............................")
-			fmt.Printf("The build config of %s/%s[isForAppleTV=%t] is: %+q\n", platform, arch, len(buildAppleTVOSVersion) > 0, env)
+			fmt.Printf("The build config of %s/%s[isForAppleTV=%t] is: %+q\n", platform, arch, buildForAppleTV, env)
 			fmt.Println("..............................")
 
 			appleEnv[platform+"/"+arch] = env

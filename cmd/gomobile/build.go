@@ -238,25 +238,25 @@ func printcmd(format string, args ...interface{}) {
 
 // "Build flags", used by multiple commands.
 var (
-	buildA                 bool        // -a
-	buildI                 bool        // -i
-	buildN                 bool        // -n
-	buildV                 bool        // -v
-	buildX                 bool        // -x
-	buildO                 string      // -o
-	buildGcflags           string      // -gcflags
-	buildAsmflags          string      // -asmflags
-	buildLdflags           string      // -ldflags
-	buildTarget            string      // -target
-	buildTrimpath          bool        // -trimpath
-	buildWork              bool        // -work
-	buildBundleID          string      // -bundleid
-	buildIOSVersion        string      // -iosversion
-	buildAppleTVOSVersion  string      // -appletvversion
-	targetFolderForAppleTV string      // -targetfolderforappletv
-	buildMacOSVersion      string      // -macosversion
-	buildAndroidAPI        int         // -androidapi
-	buildTags              stringsFlag // -tags
+	buildA                bool        // -a
+	buildI                bool        // -i
+	buildN                bool        // -n
+	buildV                bool        // -v
+	buildX                bool        // -x
+	buildO                string      // -o
+	buildGcflags          string      // -gcflags
+	buildAsmflags         string      // -asmflags
+	buildLdflags          string      // -ldflags
+	buildTarget           string      // -target
+	buildTrimpath         bool        // -trimpath
+	buildWork             bool        // -work
+	buildBundleID         string      // -bundleid
+	buildIOSVersion       string      // -iosversion
+	buildAppleTVOSVersion string      // -appletvversion
+	buildForAppleTV       bool        // -appletv
+	buildMacOSVersion     string      // -macosversion
+	buildAndroidAPI       int         // -androidapi
+	buildTags             stringsFlag // -tags
 )
 
 func addBuildFlags(cmd *command) {
@@ -270,10 +270,9 @@ func addBuildFlags(cmd *command) {
 	cmd.flag.StringVar(&buildBundleID, "bundleid", "", "")
 	cmd.flag.StringVar(&buildIOSVersion, "iosversion", "13.0", "")
 	cmd.flag.StringVar(&buildAppleTVOSVersion, "appletvversion", "", "")
-	cmd.flag.StringVar(&targetFolderForAppleTV, "targetfolderforappletv", "", "")
+	cmd.flag.BoolVar(&buildForAppleTV, "appletv", false, "")
 	cmd.flag.StringVar(&buildMacOSVersion, "macosversion", "12.0", "")
 	cmd.flag.IntVar(&buildAndroidAPI, "androidapi", minAndroidAPI, "")
-
 	cmd.flag.BoolVar(&buildA, "a", false, "")
 	cmd.flag.BoolVar(&buildI, "i", false, "")
 	cmd.flag.BoolVar(&buildTrimpath, "trimpath", false, "")
