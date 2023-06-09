@@ -143,7 +143,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		gobindDir := filepath.Join(outDir, "src", "gobind")
 
 		env := appleEnv[t.String()][:]
-		fmt.Printf("read %s from appleEnv:%s ..............................\n", t.String(), env)
+		fmt.Printf("read %s for appleEnv:%s ..............................\n", t.String(), env)
 
 		sdk := getenv(env, "DARWIN_SDK")
 
