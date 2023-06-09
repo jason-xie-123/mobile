@@ -285,7 +285,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 	}
 
 	fmt.Println("..............................")
-	fmt.Println("the create-xcframework command is:..............................", commandTmp)
+	fmt.Println("the create-xcframework command is:", commandTmp)
 	fmt.Println("..............................")
 
 	cmd := exec.Command("xcodebuild", xcframeworkArgs...)
