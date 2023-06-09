@@ -291,41 +291,6 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 	cmd := exec.Command("xcodebuild", xcframeworkArgs...)
 	err = runCmd(cmd)
 	return err
-
-	// if len(buildAppleTVOSVersion) > 0 {
-	// 	fmt.Println("compile for Apple TV, no need create-xcframework ..............................")
-	// 	fmt.Printf("the origin build contain: %+q\n", frameworkDirs)
-	// 	frameworkDirs = RemoveRepeatedElement(frameworkDirs)
-	// 	fmt.Printf("the origin build after remove repeated elements: %+q\n", frameworkDirs)
-
-	// 	for index := 0; index < len(frameworkDirs); index++ {
-	// 		if strings.Contains(frameworkDirs[index], "appletvos") {
-	// 			os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvos")+len("appletvos")], targetFolderForAppleTV+"/appletvos")
-	// 		}
-
-	// 		if strings.Contains(frameworkDirs[index], "appletvsimulator") {
-	// 			os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvsimulator")+len("appletvsimulator")], targetFolderForAppleTV+"/appletvsimulator")
-	// 		}
-
-	// 		fmt.Printf("%d: %s \n", index, frameworkDirs[index])
-	// 	}
-	// 	return nil
-	// } else {
-	// 	fmt.Println("start create-xcframework ..............................")
-	// 	fmt.Printf("the origin build contain: %+q\n", frameworkDirs)
-
-	// 	// Finally combine all frameworks to an XCFramework
-	// 	xcframeworkArgs := []string{"-create-xcframework"}
-
-	// 	for _, dir := range frameworkDirs {
-	// 		xcframeworkArgs = append(xcframeworkArgs, "-framework", dir)
-	// 	}
-
-	// 	xcframeworkArgs = append(xcframeworkArgs, "-output", buildO)
-	// 	cmd := exec.Command("xcodebuild", xcframeworkArgs...)
-	// 	err = runCmd(cmd)
-	// 	return err
-	// }
 }
 
 func RemoveRepeatedElement(arr []string) (newArr []string) {
