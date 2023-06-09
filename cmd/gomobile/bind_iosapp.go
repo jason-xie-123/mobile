@@ -268,6 +268,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 	}
 
 	fmt.Println("start create-xcframework ..............................")
+	fmt.Printf("the origin build contain: %+q\n", frameworkDirs)
 
 	// Finally combine all frameworks to an XCFramework
 	xcframeworkArgs := []string{"-create-xcframework"}
@@ -301,6 +302,7 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 	// 	return nil
 	// } else {
 	// 	fmt.Println("start create-xcframework ..............................")
+	// 	fmt.Printf("the origin build contain: %+q\n", frameworkDirs)
 
 	// 	// Finally combine all frameworks to an XCFramework
 	// 	xcframeworkArgs := []string{"-create-xcframework"}
