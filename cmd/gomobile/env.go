@@ -205,6 +205,7 @@ func envInit() (err error) {
 			switch platform {
 			case "ios":
 				if len(buildAppleTVOSVersion) > 0 {
+					// https://github.com/rust-lang/rust/issues/48862
 					fmt.Println("start ready build config for appleTV ..............................")
 					goos = "ios"
 					// goos = "ios"
@@ -222,6 +223,7 @@ func envInit() (err error) {
 				}
 			case "iossimulator":
 				if len(buildAppleTVOSVersion) > 0 {
+					// https://github.com/rust-lang/rust/issues/48862
 					fmt.Println("start ready build config for appleTV Simulator ..............................")
 					goos = "ios"
 					// goos = "ios"
