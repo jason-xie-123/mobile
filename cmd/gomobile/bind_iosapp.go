@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"os"
 	"os/exec"
 	"path/filepath"
 	"strconv"
@@ -268,57 +267,53 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 		}
 	}
 
-	if len(buildAppleTVOSVersion) > 0 {
-		fmt.Println("compile for Apple TV, no need create-xcframework, the build contain as below ..............................")
-		frameworkDirs = RemoveRepeatedElement(frameworkDirs)
+	fmt.Println("start create-xcframework ..............................")
 
-		for index := 0; index < len(frameworkDirs); index++ {
-			// cmd := exec.Command("lipo", "-info", frameworkDirs[index]+"/Versions/A/Falconapi")
-			// out, err := cmd.Output()
+	// Finally combine all frameworks to an XCFramework
+	xcframeworkArgs := []string{"-create-xcframework"}
 
-			// if err != nil {
-			// 	err = fmt.Errorf("can not check the Architectures of the framework: %s", frameworkDirs[index])
-
-			// 	return err
-			// }
-			// architectures := ""
-			// result := string(out)
-			// if strings.Contains(result, "x86_64 arm64") {
-			// 	architectures = "x86_64 arm64"
-			// } else if strings.Contains(result, "arm64") {
-			// 	architectures = "arm64"
-			// } else {
-			// 	err = fmt.Errorf("can not check the Architectures of the framework: %s", frameworkDirs[index])
-
-			// 	return err
-			// }
-
-			if strings.Contains(frameworkDirs[index], "appletvos") {
-				os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvos")+len("appletvos")], targetFolderForAppleTV+"/appletvos")
-			}
-
-			if strings.Contains(frameworkDirs[index], "appletvsimulator") {
-				os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvsimulator")+len("appletvsimulator")], targetFolderForAppleTV+"/appletvsimulator")
-			}
-
-			fmt.Printf("%d: %s \n", index, frameworkDirs[index])
-		}
-		return nil
-	} else {
-		fmt.Println("compile for iOS, no need create-xcframework ..............................")
-
-		// Finally combine all frameworks to an XCFramework
-		xcframeworkArgs := []string{"-create-xcframework"}
-
-		for _, dir := range frameworkDirs {
-			xcframeworkArgs = append(xcframeworkArgs, "-framework", dir)
-		}
-
-		xcframeworkArgs = append(xcframeworkArgs, "-output", buildO)
-		cmd := exec.Command("xcodebuild", xcframeworkArgs...)
-		err = runCmd(cmd)
-		return err
+	for _, dir := range frameworkDirs {
+		xcframeworkArgs = append(xcframeworkArgs, "-framework", dir)
 	}
+
+	xcframeworkArgs = append(xcframeworkArgs, "-output", buildO)
+	cmd := exec.Command("xcodebuild", xcframeworkArgs...)
+	err = runCmd(cmd)
+	return err
+
+	// if len(buildAppleTVOSVersion) > 0 {
+	// 	fmt.Println("compile for Apple TV, no need create-xcframework ..............................")
+	// 	fmt.Printf("the origin build contain: %+q\n", frameworkDirs)
+	// 	frameworkDirs = RemoveRepeatedElement(frameworkDirs)
+	// 	fmt.Printf("the origin build after remove repeated elements: %+q\n", frameworkDirs)
+
+	// 	for index := 0; index < len(frameworkDirs); index++ {
+	// 		if strings.Contains(frameworkDirs[index], "appletvos") {
+	// 			os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvos")+len("appletvos")], targetFolderForAppleTV+"/appletvos")
+	// 		}
+
+	// 		if strings.Contains(frameworkDirs[index], "appletvsimulator") {
+	// 			os.Rename(frameworkDirs[index][:strings.Index(frameworkDirs[index], "appletvsimulator")+len("appletvsimulator")], targetFolderForAppleTV+"/appletvsimulator")
+	// 		}
+
+	// 		fmt.Printf("%d: %s \n", index, frameworkDirs[index])
+	// 	}
+	// 	return nil
+	// } else {
+	// 	fmt.Println("start create-xcframework ..............................")
+
+	// 	// Finally combine all frameworks to an XCFramework
+	// 	xcframeworkArgs := []string{"-create-xcframework"}
+
+	// 	for _, dir := range frameworkDirs {
+	// 		xcframeworkArgs = append(xcframeworkArgs, "-framework", dir)
+	// 	}
+
+	// 	xcframeworkArgs = append(xcframeworkArgs, "-output", buildO)
+	// 	cmd := exec.Command("xcodebuild", xcframeworkArgs...)
+	// 	err = runCmd(cmd)
+	// 	return err
+	// }
 }
 
 func RemoveRepeatedElement(arr []string) (newArr []string) {
