@@ -278,6 +278,16 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 	}
 
 	xcframeworkArgs = append(xcframeworkArgs, "-output", buildO)
+
+	commandTmp := "xcodebuild"
+	for index := 0; index < len(xcframeworkArgs); index++ {
+		commandTmp += " " + xcframeworkArgs[index]
+	}
+
+	fmt.Println("..............................")
+	fmt.Println("the create-xcframework command is:..............................", commandTmp)
+	fmt.Println("..............................")
+
 	cmd := exec.Command("xcodebuild", xcframeworkArgs...)
 	err = runCmd(cmd)
 	return err
