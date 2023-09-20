@@ -293,23 +293,6 @@ func goAppleBind(gobind string, pkgs []*packages.Package, targets []targetInfo) 
 	return err
 }
 
-func RemoveRepeatedElement(arr []string) (newArr []string) {
-	newArr = make([]string, 0)
-	for i := 0; i < len(arr); i++ {
-		repeat := false
-		for j := i + 1; j < len(arr); j++ {
-			if arr[i] == arr[j] {
-				repeat = true
-				break
-			}
-		}
-		if !repeat {
-			newArr = append(newArr, arr[i])
-		}
-	}
-	return newArr
-}
-
 const appleBindInfoPlist = `<?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
     <plist version="1.0">
