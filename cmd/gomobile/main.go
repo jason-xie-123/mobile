@@ -99,7 +99,6 @@ func ensureGoVersion() (string, error) {
 		// Ignore unknown versions; it's probably a devel version.
 		return "", nil
 	}
-
 	goVersion = fmt.Sprintf("go1.%d", minor)
 	if minor < minimumGoMinorVersion {
 		return "", fmt.Errorf("Go 1.%d or newer is required", minimumGoMinorVersion)
